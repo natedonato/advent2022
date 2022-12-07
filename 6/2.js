@@ -5,8 +5,6 @@ let found = false;
 let i = 0;
 while (found === false) {
   let sub = input.slice(i, i + 14);
-  // console.log(i, sub)
-
   if (unique(sub)) {
     found = true;
   } else {
