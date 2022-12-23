@@ -1,5 +1,5 @@
 const fs = require("fs");
-let input = fs.readFileSync("./19/input.txt", "utf8").split("\n");
+let input = fs.readFileSync("./19/sample.txt", "utf8").split("\n");
 
 // parse input into costs.
 // orebot cost (in ore)
