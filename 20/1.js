@@ -1,8 +1,6 @@
 const fs = require('fs');
 let input = fs.readFileSync('20/input.txt', "utf-8").split('\n').map(el => +el);
 
-console.log(input.length);
-
 // collect references to nodes
 let pointers = {};
 let zero;
@@ -21,108 +19,94 @@ function node(val, prev, next, i){
   return(node)
 }
 
-// make double linked list
-let root = node(input[0], null, null, 0)
-let prev = root;
+let root = node(input[0],null,null,0)
+pointers[0] = root;
+let currentNode = root;
 for(let i = 1; i < input.length; i++){
-  let nextNode = node(input[i], prev, null, i);
-  prev.next = nextNode;
-  prev = nextNode;
-};
-root.prev = prev;
-prev.next = root;
+  let nextNode = node(input[i], currentNode, null, i);
+  pointers[i] = nextNode;
+  currentNode.next = nextNode;
+  currentNode = nextNode;
+}
+root.prev = currentNode;
+currentNode.next = root;
 
-console.log(Object.keys(pointers).length)
-
-for(let i = 0; i < input.length; i++){
+for(let i = 0; i < Object.keys(pointers).length; i++){
   let currentNode = pointers[i];
-  let number = currentNode.val;
-  let point = currentNode;
-  let turns = number % input.length;
+  let traveler = currentNode;
+  let val = currentNode.val;
 
-  if(turns > 0){
-    for(let i = 0; i < turns; i++){
-      point = point.next;
-    }
-  }else{
-    for(let i = 0; i > turns; i--){
-      point = point.prev;
-    }
-    point = point.prev;
+  if(currentNode.val !== 0){
+    removeNode(currentNode);
   }
+  
 
-  if(turns !== 0){
-    removeEl(currentNode);
-    insertAfter(currentNode, point);
-  }
-  // print(0)
-};
-
-
-function print(val){
-  let p = zero;
-  let str = ""
-  for(let i = 0; i < input.length; i++){
-    str += p.val + ', ';
-    p = p.next;
-    if(p.val === 0){
-      console.log(i)
+  if(val > 0){
+    for(let i = 0; i < val; i++){
+      traveler = traveler.next;
     }
+    insertAfter(currentNode, traveler);
+  }else if (val < 0){
+    for(let i = 0; i >= val; i--){
+      traveler = traveler.prev;
+    }
+    insertAfter(currentNode, traveler);
   }
+  // print();
 }
 
+function removeNode(node){
 
-console.log(zero);
-
-function printRev(val){
-  let p = zero;
-  let arr = [];
-  for (let i = 0; i < input.length; i++) {
-    arr.push(p.val)
-    p = p.prev;
-  }
-
-  arr.push(arr.shift())
-  // console.log(arr.reverse().join(", "))  
-  // return arr.reverse().join(", ");
-}
-
-
-function removeEl(node) {
-  let prev = node.prev;
-  let next = node.next;
-  prev.next = next;
-  next.prev = prev;
-  node.prev = null;
-  node.next = null;
-
+  node.prev.next = node.next;
+  node.next.prev = node.prev;
   return node;
 }
 
-// insert nodeA after nodeB
-function insertAfter(nodeA, nodeB) {
-  let next = nodeB.next;
-
-  nodeA.next = next;
-  next.prev = nodeA;
-
-  nodeB.next = nodeA;
-  nodeA.prev = nodeB;
+function insertAfter(insert, node){
+  let next = node.next;
+  node.next = insert;
+  next.prev = insert;
+  insert.next = next;
+  insert.prev = node;
 }
 
-function findNodeNum(num){
-  num %= input.length;
-  let node = zero
-  for(let i = 0; i < num; i++){
+
+
+
+print();
+
+function print(){
+  let node = zero;
+  let revNode = zero;
+  let str = '';
+  let strRev = []
+  for(let i = 0; i < input.length; i++){
+    str += node.val + ', ';
+    strRev.push(revNode.val); 
     node = node.next;
+    revNode = revNode.prev;
   }
 
-  console.log('after', num, "val=", node.val);
+  strRev.push(strRev.shift());
+  strRev = strRev.reverse().join(", ") + ", ";
+  if(str !== strRev){
+    console.log("NOT SAME BACK AND FORWARDS! :(");
+    console.log(str)
+    console.log(strRev)
+  }else{
+    console.log(str);
+    console.log('same back and forward! :)')
+  }
+}
+
+function getVal(x){
+  let node = zero;
+  for(let i = 0; i < x; i++){
+    node = node.next;
+  }
+  console.log('val at', x, 'is', node.val);
+
   return node.val;
 }
 
-print(0)
-printRev(0)
-
-
-console.log(findNodeNum(1000) + findNodeNum(2000) + findNodeNum(3000))
+console.log('sum', getVal(1000) + getVal(2000) + getVal(3000))
