@@ -4,50 +4,36 @@ let directions = input.pop();
 input.pop();
 input = input.map((el) => el.split(""));
 
-let y = 0;
-let x = 0;
-while (input[y][x] === " ") {
-  x += 1;
+let i = 0;
+let j = 0;
+while (input[i][j] === " ") {
+  j += 1;
 }
 
 // x,y
 let vectors = [
-  [1, 0], // right
-  [0, 1], // down
-  [-1, 0], // left
-  [0, -1], // up
+  [1, 0, 'v'], // down
+  [0, 1, ">"], // right
+  [-1, 0, "^"], // up
+  [0, -1, "<"], // left
 ];
 
-
-let sideLength = 50;
-
-let wraps = {};
-
-let corners = {};
-
-makeWraps();
-
-
-
-function makeWraps(){
-  for(let y = sideLength; y < 2 * sideLength; y++){
-    let x = sideLength * 2;
-    wraps[`${x},${y}`] = [sideLength + y, sideLength - 1, "UP"]
-    wraps[`${sideLength + y},${sideLength}`] = [x - 1, y, "LEFT"];
+function getReverseDir(dir) {
+  if (dir === 0) {
+    return 2;
   }
-
-
-
+  if (dir === 1) {
+    return 3;
+  }
+  if (dir === 2) {
+    return 0;
+  }
+  if (dir === 3) {
+    return 1;
+  }
 }
 
-console.log(wraps);
-
-
-function wrap(x,y){
-
-}
-
-let dir = 0;
+let dir = 1;
 let vector = vectors[dir];
 
 function getNextSteps() {
@@ -60,18 +46,19 @@ function getNextSteps() {
 }
 
 function getNextTurn() {
+  console.log(directions.charAt(0));
   if (directions.length === 0) {
     return "END";
   }
   if (directions.charAt(0) === "L") {
-    dir -= 1;
-    if (dir < 0) {
-      dir = 3;
-    }
-  } else {
     dir += 1;
     if (dir > 3) {
       dir = 0;
+    }
+  } else {
+    dir -= 1;
+    if (dir < 0) {
+      dir = 3;
     }
   }
   vector = vectors[dir];
@@ -79,103 +66,161 @@ function getNextTurn() {
   directions = directions.substring(1);
 }
 
+const wrappers = {};
+
+makeWrap([50, 100], [50, 149], [50, 100], [99, 100], 0, 3); // okok
+
+makeWrap([49, 150], [0, 150], [100, 100], [149, 100], 1, 3) //  okok
+
+makeWrap([-1, 100], [-1, 149], [200, 0], [200, 49], 2, 2); // okok
+
+makeWrap([0, 49], [49, 49], [149, -1], [100, -1], 3, 1); // okok
+
+makeWrap([50, 49], [99, 49], [99, 0], [99, 49], 3, 0); // okok
+
+makeWrap([-1, 50], [-1, 99], [150, -1], [199, -1], 2, 1); // okok
+
+makeWrap([150,50],[150,99],[150,50],[199,50], 0, 3) // 
+
+// let vectors = [
+//   [1, 0], // down 0
+//   [0, 1], // right 1
+//   [-1, 0], // up 2
+//   [0, -1], // left 3
+// ];
+
 /////
 // parse next direction
 // turn with appropriate vector
 // move in direction
 // if hit a rock. stop
 // if hit an edge and next edge is not a rock, wrap around
-let moving = false;
+let moving = true;
+// let count = 43;
 while (moving) {
   let steps = getNextSteps();
 
   move(steps);
   // printState();
-  // console.log(x,y)
-
+  console.log(i,j)
+  // count -= 1;
   if (getNextTurn() === "END") {
     moving = false;
   }
 }
 
-function move(steps) {
-  // console.log("moving", steps)
-  // console.log("starting", x,y)
-  // console.log('vector', vector)
-  for (let i = 0; i < steps; i++) {
-    let [nextX, nextY] = [x + vector[0], y + vector[1]];
-    [nextX, nextY] = wrap(nextX, nextY);
-    if (input[nextY][nextX] === "#") {
-      return;
-    } else {
-      x = nextX;
-      y = nextY;
-    }
-  }
+function move(steps) { 
+  console.log("moving", steps , 'steps')
+  console.log("starting", i,j)
+  console.log('vector', vector)
 
+  for (let k = 0; k < steps; k++) {
+    console.log('current', i,j)
+    let [nextI, nextJ] = [i + vector[0], j + vector[1]];
+    console.log('next', nextI,nextJ);
+    let nextDir = dir;
+    console.log('currentDir', dir);
+    if(wrappers[`${nextI},${nextJ},${dir}`] !== undefined){
+      console.log('wrapping')
+
+      console.log(wrappers[`${nextI},${nextJ},${dir}`])
+      console.log(nextI, nextJ, nextDir);
+      [nextI, nextJ, nextDir] = wrappers[`${nextI},${nextJ},${dir}`];
+    };
+    console.log('possible next', nextI, nextJ)
+    if (input[nextI][nextJ] === "#") {
+      console.log('staying at',i,j)
+      return;
+    } else if (input[nextI][nextJ] !== '.') {
+      console.log("error out of bounds", nextI, nextJ, dir)
+    } else {
+      i = nextI;
+      j = nextJ;
+      dir = nextDir;
+    }
+    vector = vectors[dir];
+  }
   return;
 }
 
-// function wrapRight(x, y) {
-//   // console.log('wrapping', x,y, "right")
-//   while (input[y][x] !== "." && input[y][x] !== "#") {
-//     if (input[y][x] === undefined) {
-//       x = 0;
-//     } else if (input[y][x] === " ") {
-//       x += 1;
-//     }
-//   }
 
-//   // console.log("wrapped", x,y)
-//   return [x, y];
-// }
+function wrap(x, y, dir) {
+  return wrappers[`${x},${y},${dir}`];
+}
 
-// function wrapLeft(x, y) {
-//   // console.log("wrapping", x, y, "left");
-//   while (input[y][x] !== "." && input[y][x] !== "#") {
-//     if (input[y][x] === undefined) {
-//       x = input[y].length - 1;
-//     } else if (input[y][x] === " ") {
-//       x -= 1;
-//     }
-//   }
-//   return [x, y];
-// }
+// map line from x1,y1 x2y2 to x3,y3 x4,y4 and change direction from dir1 to dir2.
 
-// function wrapDown(x, y) {
-//   //  console.log("wrapping", x, y, "down");
-//   while (!input[y] || (input[y][x] !== "." && input[y][x] !== "#")) {
-//     // console.log("y=", input[y])
-//     if (input[y] === undefined) {
-//       y = 0;
-//     } else if (input[y][x] === " " || input[y][x] === undefined) {
-//       y += 1;
-//     }
-//   }
-//   // console.log('wrapped',x,y)
-//   return [x, y];
-// }
+function makeWrap(p1, p2, p3, p4, dir1, dir2) {
+  let [i1, j1] = p1;
+  let [i2, j2] = p2;
+  let [i3, j3] = p3;
+  let [i4, j4] = p4;
+  let points1 = makePoints(i1, j1, i2, j2);
+  let points2 = makePoints(i3, j3, i4, j4);
 
-// function wrapUp(x, y) {
-//   //  console.log("wrapping", x, y, "up");
-//   while (!input[y] || (input[y][x] !== "." && input[y][x] !== "#")) {
-//     if (input[y] === undefined) {
-//       y = input.length - 1;
-//     } else if (input[y][x] === " " || input[y][x] === undefined) {
-//       y -= 1;
-//     }
-//   }
-//   return [x, y];
-// }
+  let v1 = vectors[dir2];
+  let v2 = vectors[getReverseDir(dir1)];
+
+  if (points1.length !== points2.length) {
+    throw "ERROR";
+  }
+
+  for (let i = 0; i < points1.length; i++) {
+    wrappers[`${points1[i][0]},${points1[i][1]},${dir1}`] = [
+      points2[i][0] + v1[0],
+      points2[i][1] + v1[1],
+      dir2,
+    ];
+    wrappers[`${points2[i][0]},${points2[i][1]},${getReverseDir(dir2)}`] = [
+      points1[i][0] + v2[0],
+      points1[i][1] + v2[1],
+      getReverseDir(dir1),
+    ];
+  }
+}
+
+// let vectors = [
+//   [1, 0], // down
+//   [0, 1], // right
+//   [-1, 0], // up
+//   [0, -1], // left
+// ];
+
+// 0: DOWN
+// 1: RIGHT
+// 2: UP
+// 3: LEFT
+
+// console.log(wrappers);
+
+function makePoints(i1, j1, i2, j2) {
+  let points = [];
+
+  if (i1 > i2 || j1 > j2) {
+    for (let i = i1; i >= i2; i--) {
+      for (let j = j1; j >= j2; j--) {
+        points.push([i, j]);
+      }
+    }
+  } else {
+    for (let i = i1; i <= i2; i++) {
+      for (let j = j1; j <= j2; j++) {
+        points.push([i, j]);
+      }
+    }
+  }
+
+  return points;
+}
 
 function printState() {
-  for (let i = 0; i < input.length; i++) {
+  for (let i1 = 0; i1 < input.length; i1++) {
     let str = "";
-    for (let j = 0; j < input[i].length; j++) {
-      if (j === x && i === y) {
+    for (let j1 = 0; j1 < input[i1].length; j1++) {
+      if (j1 === j && i1 === i) {
         str += "X";
       } else {
-        str += input[i][j];
+        str += input[i1][j1];
       }
     }
     console.log(str);
@@ -183,12 +228,10 @@ function printState() {
 }
 
 
+let dirScores = [1, 0, 3, 2];
 
+console.log("x / col", j);
+console.log("y / row", i);
+console.log("dir", dir);
 
-// let dirScores = [0, 1, 2, 3];
-
-// console.log("x / col", x);
-// console.log("y / row", y);
-// console.log("dir", dir);
-
-// console.log("finalScore, ", 1000 * (y + 1) + 4 * (x + 1) + dirScores[dir]);
+console.log("finalScore, ", 1000 * (i + 1) + 4 * (j + 1) + dirScores[dir]);
