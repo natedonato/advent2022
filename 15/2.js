@@ -61,35 +61,34 @@ let maxCoord = 4000000;
 // beacon must be just outside the range of a sensor, so just test points outside sensor range
 let edgePoints = [];
 
-function collectEdgePoints(sensor, dist){
+function collectEdgePoints(sensor, dist) {
   dist += 1;
   let dx = dist;
   let dy = 0;
 
-  for(let i = 0; i <= dist; i++){
-    edgePoints.push({x: sensor.x + dx, y: sensor.y + dy})
-    edgePoints.push({x: sensor.x - dx, y: sensor.y - dy})
+  for (let i = 0; i <= dist; i++) {
+    edgePoints.push({ x: sensor.x + dx, y: sensor.y + dy });
+    edgePoints.push({ x: sensor.x - dx, y: sensor.y - dy });
     dx -= 1;
-    dy += 1
+    dy += 1;
   }
 }
 
-for({sensor, dist} of sensorsDists){
+for ({ sensor, dist } of sensorsDists) {
   collectEdgePoints(sensor, dist);
 }
 
-console.log("total points to test:", edgePoints.length)
+console.log("total points to test:", edgePoints.length);
 
-for(point of edgePoints){
-  if(testPoint(point)){
+for (point of edgePoints) {
+  if (testPoint(point)) {
     return;
-  };
+  }
 }
 
 function testPoint(point) {
-
-  // if point out of bounds skip  
-  if(point.x < 0 || point.y < 0 || point.x > maxCoord || point.y > maxCoord){
+  // if point out of bounds skip
+  if (point.x < 0 || point.y < 0 || point.x > maxCoord || point.y > maxCoord) {
     return false;
   }
 

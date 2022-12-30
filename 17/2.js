@@ -1,6 +1,5 @@
 const fs = require("fs");
 let ogInput = fs.readFileSync("./17/input.txt", "utf8");
-// let ogInput = "<<<<<<<"
 let input = ogInput.split("");
 
 const rocks = [
@@ -58,49 +57,43 @@ for (let i = 0; i < target; i++) {
   nextRock.forEach((el) => (el.y = el.y + maxHeight + 4));
   nextRock.forEach((el) => (el.x = el.x + 2));
 
-
   // fall loop
   let falling = true;
 
   while (falling) {
-
     //push rock direction
     let direction = input.shift();
     if (direction === undefined) {
       input = ogInput.split("");
       direction = input.shift();
 
-      if(!matchFound){
+      if (!matchFound) {
         // make serials
-        let serial = [serialize(), rockIdx, i, maxHeight]
+        let serial = [serialize(), rockIdx, i, maxHeight];
         let match = serials.find(
           (el) => el[0] === serial[0] && el[1] === serial[1]
         );
-        if(match !== undefined){
-          console.log('match found!')
+        if (match !== undefined) {
+          console.log("match found!");
           console.log("cycle length", serial[2] - match[2]);
 
-          console.log('current', i)
-          console.log('remaining pieces', target - i)
+          console.log("current", i);
+          console.log("remaining pieces", target - i);
           matchFound = true;
           let cycleLength = serial[2] - match[2];
 
-          let cycleHeight = serial[3] - match[3]
-          let skippedCycles = Math.floor((target-i) / cycleLength);
-          console.log("skipping", skippedCycles, "cycles")
+          let cycleHeight = serial[3] - match[3];
+          let skippedCycles = Math.floor((target - i) / cycleLength);
+          console.log("skipping", skippedCycles, "cycles");
           target -= cycleLength * skippedCycles;
           jumpedHeight += cycleHeight * skippedCycles;
-          console.log('now remaining', target - i, 'pieces to drop');
-          console.log('skipped over height of',jumpedHeight)
-        }else{
+          console.log("now remaining", target - i, "pieces to drop");
+          console.log("skipped over height of", jumpedHeight);
+        } else {
           serials.unshift(serial);
         }
-
       }
-      
-
     }
-
 
     let dx = -1;
     if (direction === ">") {
@@ -142,7 +135,7 @@ for (let i = 0; i < target; i++) {
   nextRock.forEach((el) => (state[`${el.x},${el.y}`] = "rock"));
 }
 
-function serialize(x = 12){
+function serialize(x = 12) {
   let str = "";
 
   for (let y = maxHeight - x; y < maxHeight + 1; y++) {

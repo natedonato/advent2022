@@ -78,7 +78,6 @@ function bfs() {
   let queue = [start];
 
   while (queue.length > 0) {
-    // console.log(queue);
     let [pos, minute, path] = queue.shift();
     let [i, j] = pos;
 
@@ -89,11 +88,6 @@ function bfs() {
     }
 
     minute += 1;
-
-
-    // console.log('minute', minute)
-    // console.log('i,j', i,j)
-
 
     if (storms[minute] === undefined) {
       makeMinute(minute);

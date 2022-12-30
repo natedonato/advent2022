@@ -37,16 +37,9 @@ function simulate(i) {
   let maxClayCost = costs.obsidianBotCost[1];
   let maxObsidianCost = costs.geodeBotCost[2];
 
-  // console.log(costs);
-  // console.log("max ore cost", maxOreCost);
-  // console.log("max clay cost", maxClayCost);
-  // console.log("max obsidian cost", maxObsidianCost);
-
   // ore, clay, obsidian, geode
-  // let resources = {ore: 0, clay: 0, obsidian: 0, geodes: 0};
   let resources = [0, 0, 0, 0];
   let bots = [1, 0, 0, 0];
-  // let bots = {oreBots: 1, clayBots: 0, obsidianBots: 0, geodeBots: 0};
   let minute = 0;
 
   let passed = [0, 0, 0, 0];
@@ -58,11 +51,8 @@ function simulate(i) {
 
     // current minute
     minute += 1;
-    // console.log("minute", minute);
-    // console.log("bots", bots);
 
     let buildableResources = [...resources];
-    // console.log("buildable resources", buildableResources);
 
     // gain next round resources
     for (let i = 0; i < 4; i++) {
@@ -70,8 +60,6 @@ function simulate(i) {
     }
 
     best = Math.max(best, resources[3]);
-
-    // console.log("total resources", resources);
 
     if (minute < 32) {
       if (maxPossibleGeode(minute, resources[3], bots[3]) >= best) {
@@ -141,14 +129,9 @@ function simulate(i) {
         queue.push([resources, bots, minute, passed]);
       }
     }
-    // end at minute 24
+    
     if (minute === 32) {
-      // if (resources[3] > best) {
-      //   best = resources[3];
-      //   console.log("new best");
-      //   console.log(best);
-      //   console.log(bots);
-      // }
+
     }
   }
   return best;

@@ -41,7 +41,7 @@ function prettyPrint() {
   }
   let lastLine = "";
   for (let x = xmin; x < xmax; x++) {
-    lastLine += "#"
+    lastLine += "#";
   }
   console.log(lastLine);
 }
@@ -80,7 +80,7 @@ while (settling === true) {
       // fall left
       sand[0] -= 1;
       sand[1] += 1;
-      xmin = Math.min(xmin, sand[0] - 2)
+      xmin = Math.min(xmin, sand[0] - 2);
     } else if (objects[`${x + 1},${y + 1}`] === undefined && y < ymax) {
       // fall right
       sand[0] += 1;

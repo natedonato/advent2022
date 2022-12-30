@@ -33,7 +33,7 @@ function prettyPrint() {
         line += ".";
       } else if (type === "rock") {
         line += "#";
-      }else if(type === 'sand'){
+      } else if (type === "sand") {
         line += "O";
       }
     }
@@ -95,6 +95,10 @@ while (settling === true) {
 prettyPrint();
 
 let totalSand = 0;
-Object.values(objects).forEach(el => {if(el === "sand"){totalSand += 1}});
+Object.values(objects).forEach((el) => {
+  if (el === "sand") {
+    totalSand += 1;
+  }
+});
 
-console.log('total sand:', totalSand)
+console.log("total sand:", totalSand);

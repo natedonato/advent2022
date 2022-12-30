@@ -17,8 +17,6 @@ for (let i = 0; i < input.length; i++) {
 let rounds = 0;
 
 function anyNeighbors(i, j) {
-  // console.log(i,j)
-
   // around
   let neighbors = [
     // above
@@ -39,11 +37,9 @@ function anyNeighbors(i, j) {
   for (const coord of neighbors) {
     let [col, row] = coord;
     if (elves[`${col},${row}`] !== undefined) {
-      // console.log('has neighbors');
       return true;
     }
   }
-  // console.log('no neighbors');
   return false;
 }
 
@@ -77,14 +73,10 @@ function proposeMove(i, j) {
   ];
 
   for (let i = 0; i < rounds % 4; i++) {
-    // console.log('shifting rounds')
     directions.push(directions.shift());
   }
 
-  // console.log(i,j);
-
   for (const item of directions) {
-    // console.log(item);
     if (item[0] === true) {
       return item[1];
     }
@@ -109,13 +101,10 @@ prettyPrint();
 
 let unmoved = false;
 let i = 0;
-while(unmoved === false){
-  i+= 1;
+while (unmoved === false) {
+  i += 1;
   simulateRound();
 }
-
-console.log(i);
-// prettyPrint(true);
 
 function simulateRound() {
   unmoved = true;
@@ -140,9 +129,6 @@ function simulateRound() {
     }
   }
 
-  // console.log(elves);
-
-  // console.log(proposedMoves);
   // move elves that won't collide
   for (const [key, value] of Object.entries(proposedMoves)) {
     if (value !== "collision") {
@@ -151,10 +137,6 @@ function simulateRound() {
       delete elves[value];
     }
   }
-
-  // console.log(elves);
-
-  // prettyPrint();
 
   rounds += 1;
 }
@@ -167,13 +149,10 @@ function prettyPrint(tally) {
   let elfList = Object.keys(elves);
   elfList = elfList.map((el) => el.split(",").map((el) => +el));
 
-  // console.log(elfList)
-
   let rowMin = Math.min(...elfList.map((el) => el[0]));
   let rowMax = Math.max(...elfList.map((el) => el[0]));
   let colMin = Math.min(...elfList.map((el) => el[1]));
   let colMax = Math.max(...elfList.map((el) => el[1]));
-  // console.log(rowMin, rowMax,colMin,colMax)
 
   for (let i = rowMin; i <= rowMax; i++) {
     let str = "";
@@ -181,7 +160,6 @@ function prettyPrint(tally) {
     for (let j = colMin; j <= colMax; j++) {
       if (elves[`${i},${j}`] !== undefined) {
         str += "#";
-        // str += i
       } else {
         if (tally === true) {
           count += 1;

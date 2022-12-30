@@ -8,8 +8,8 @@ let input = fs.readFileSync("./9/input.txt", "utf8").split("\n");
 const node = { x: 0, y: 0 };
 const rope = [];
 
-for(let i = 0; i < 10; i++){
-  rope.push({...node});
+for (let i = 0; i < 10; i++) {
+  rope.push({ ...node });
 }
 
 const directions = {
@@ -55,15 +55,13 @@ function movePointByVector(point, vector) {
 
 let visited = new Set();
 
-
 function move(line) {
   let [direction, steps] = line.split(" ");
 
   for (let i = 0; i < +steps; i++) {
-
     movePointByVector(rope[0], directions[direction]);
-    for(let i = 1; i < 10; i++){
-      movePointByVector(rope[i], getVector(rope[i-1], rope[i]))
+    for (let i = 1; i < 10; i++) {
+      movePointByVector(rope[i], getVector(rope[i - 1], rope[i]));
     }
     visited.add(`${rope[9].x},${rope[9].y}`);
   }

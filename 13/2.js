@@ -1,11 +1,14 @@
 const fs = require("fs");
-let input = fs.readFileSync("./13/input.txt", "utf8").split("\n").filter(el => el !== '').map(el => eval(el));
+let input = fs
+  .readFileSync("./13/input.txt", "utf8")
+  .split("\n")
+  .filter((el) => el !== "")
+  .map((el) => eval(el));
 input.push([[2]]);
 input.push([[6]]);
 
 // sort by compare fn
-input = input.sort((a,b) => compare(a,b) ? -1 : 1 );
-
+input = input.sort((a, b) => (compare(a, b) ? -1 : 1));
 
 // find decoder packets
 let dividerA = JSON.stringify([[2]]);
@@ -13,10 +16,10 @@ let dividerB = JSON.stringify([[6]]);
 
 let decoder = [];
 
-for(let i = 0; i < input.length; i++){
-  let str = JSON.stringify(input[i])
-  if(str === dividerA || str === dividerB){
-    decoder.push(i + 1)
+for (let i = 0; i < input.length; i++) {
+  let str = JSON.stringify(input[i]);
+  if (str === dividerA || str === dividerB) {
+    decoder.push(i + 1);
   }
 }
 
@@ -24,8 +27,6 @@ for(let i = 0; i < input.length; i++){
 console.log(decoder[0] * decoder[1]);
 
 function compare(left, right) {
-  // console.log(left, right)
-  // console.log(left,right)
   // compare integers
   if (typeof left === "number" && typeof right === "number") {
     // console.log('two numbers')
@@ -63,7 +64,6 @@ function compare(left, right) {
 
   // fix missmatch and compare
   if (typeof left !== typeof right) {
-    // console.log('missmatched types')
     if (typeof left === "number") {
       left = [left];
     } else {

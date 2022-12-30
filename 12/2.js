@@ -18,7 +18,7 @@ function find(char) {
 
 // start at highest point
 let start = find("E");
-let end = find("S")
+let end = find("S");
 
 console.log(start);
 

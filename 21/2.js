@@ -4,7 +4,6 @@ let input = fs.readFileSync("21/input.txt", "utf-8").split("\n");
 let ogVals = {};
 let ogTbd = {};
 
-
 for (const line of input) {
   let [monkey, eval] = line.split(": ");
   if (!isNaN(+eval)) {
@@ -14,16 +13,15 @@ for (const line of input) {
   }
 }
 
-
 // takes a human number, tests if values are equal or not
-function testEquality(x){
-  let vals = {...ogVals};
-  let tbd = {...ogTbd};
+function testEquality(x) {
+  let vals = { ...ogVals };
+  let tbd = { ...ogTbd };
   vals["humn"] = x;
 
-  let [a, _, b] = ogTbd["root"].split(" ");  
+  let [a, _, b] = ogTbd["root"].split(" ");
   return makeEval(a) - makeEval(b);
-  
+
   function makeEval(monkey) {
     if (vals[monkey] !== undefined) {
       return vals[monkey];
@@ -45,8 +43,6 @@ function testEquality(x){
   }
 }
 
-
-
 // console.log(testEquality(1000000000000));
 // console.log(testEquality(10000000000000));
 // from hand testing
@@ -54,21 +50,20 @@ function testEquality(x){
 // if test is negative, our shout value is too high
 // if test is positive, our shout value is too low
 
-
 // bsearch for the right thing to shout
 let l = 1000000000000;
 let r = 10000000000000;
 let searching = true;
-while(searching){
-  let mid = Math.floor((r - l) / 2 ) + l;
+while (searching) {
+  let mid = Math.floor((r - l) / 2) + l;
   let val = testEquality(mid);
 
-  if(val === 0){
+  if (val === 0) {
     searching = false;
     console.log("human shouts", mid);
-  }else if (val < 0){
-    r = mid - 1
-  }else{
+  } else if (val < 0) {
+    r = mid - 1;
+  } else {
     l = mid;
   }
 }

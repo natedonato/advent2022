@@ -66,7 +66,7 @@ function takeTurn(monkey) {
 
 monkeys = monkeys.sort((a, b) => b.numTimesInspected - a.numTimesInspected);
 
-console.log(monkeys)
+console.log(monkeys);
 
 console.log(
   "total level of monkey business:",

@@ -4,7 +4,7 @@ let input = fs.readFileSync("./3/input.txt", "utf8").split("\n");
 const alpha = "_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
 let score = 0;
-for(let j = 0; j < input.length; j+= 3){
+for (let j = 0; j < input.length; j += 3) {
   let seenItems = {};
   let duplicateItems = {};
 
@@ -15,7 +15,7 @@ for(let j = 0; j < input.length; j+= 3){
     seenItems[char] = true;
   }
 
-  line = input[j+1];
+  line = input[j + 1];
 
   for (let i = 0; i < line.length; i++) {
     let char = line.charAt(i);
@@ -25,8 +25,8 @@ for(let j = 0; j < input.length; j+= 3){
     }
   }
 
-  line = input[j+2]
-  let repeat = ""
+  line = input[j + 2];
+  let repeat = "";
   for (let i = 0; i < line.length; i++) {
     let char = line.charAt(i);
 

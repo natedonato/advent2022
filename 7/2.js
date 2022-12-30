@@ -59,7 +59,6 @@ while (i < input.length) {
   }
 }
 
-
 // collect all directory sizes
 let allSizes = [];
 
@@ -86,20 +85,16 @@ function calculateDirSize(dir) {
 
 let totalSize = calculateDirSize(root);
 
-console.log(totalSize)
-// calculate how much size needed to free up 
-let neededSpace = 30000000 - (70000000 - totalSize)
-console.log("space to be freed up:" , neededSpace)
+console.log(totalSize);
+// calculate how much size needed to free up
+let neededSpace = 30000000 - (70000000 - totalSize);
+console.log("space to be freed up:", neededSpace);
 
 // sort all sizes ascending
-allSizes = allSizes.sort((a,b) => a-b);
+allSizes = allSizes.sort((a, b) => a - b);
 
 // find the smallest size directory that can be deleted
-console.log(allSizes.find(size => size >= neededSpace))
-
-
-
-
+console.log(allSizes.find((size) => size >= neededSpace));
 
 // pretty print the directories and sizes
 // function printSizes(dir, depth) {

@@ -35,7 +35,7 @@ for (const monkeyStr of input) {
 }
 
 // make common divisor to reduce worry level
-let cd = monkeys.reduce((acc, el) => el.divisor * acc, 1)
+let cd = monkeys.reduce((acc, el) => el.divisor * acc, 1);
 
 for (let i = 0; i < 10000; i++) {
   for (const monkey of monkeys) {

@@ -12,7 +12,7 @@ while (input[i][j] === " ") {
 
 // x,y
 let vectors = [
-  [1, 0, 'v'], // down
+  [1, 0, "v"], // down
   [0, 1, ">"], // right
   [-1, 0, "^"], // up
   [0, -1, "<"], // left
@@ -70,7 +70,7 @@ const wrappers = {};
 
 makeWrap([50, 100], [50, 149], [50, 100], [99, 100], 0, 3); // okok
 
-makeWrap([49, 150], [0, 150], [100, 100], [149, 100], 1, 3) //  okok
+makeWrap([49, 150], [0, 150], [100, 100], [149, 100], 1, 3); //  okok
 
 makeWrap([-1, 100], [-1, 149], [200, 0], [200, 49], 2, 2); // okok
 
@@ -80,7 +80,7 @@ makeWrap([50, 49], [99, 49], [99, 0], [99, 49], 3, 0); // okok
 
 makeWrap([-1, 50], [-1, 99], [150, -1], [199, -1], 2, 1); // okok
 
-makeWrap([150,50],[150,99],[150,50],[199,50], 0, 3) // 
+makeWrap([150, 50], [150, 99], [150, 50], [199, 50], 0, 3); //
 
 // let vectors = [
 //   [1, 0], // down 0
@@ -96,43 +96,26 @@ makeWrap([150,50],[150,99],[150,50],[199,50], 0, 3) //
 // if hit a rock. stop
 // if hit an edge and next edge is not a rock, wrap around
 let moving = true;
-// let count = 43;
 while (moving) {
   let steps = getNextSteps();
 
   move(steps);
-  // printState();
-  console.log(i,j)
-  // count -= 1;
   if (getNextTurn() === "END") {
     moving = false;
   }
 }
 
-function move(steps) { 
-  console.log("moving", steps , 'steps')
-  console.log("starting", i,j)
-  console.log('vector', vector)
-
+function move(steps) {
   for (let k = 0; k < steps; k++) {
-    console.log('current', i,j)
     let [nextI, nextJ] = [i + vector[0], j + vector[1]];
-    console.log('next', nextI,nextJ);
     let nextDir = dir;
-    console.log('currentDir', dir);
-    if(wrappers[`${nextI},${nextJ},${dir}`] !== undefined){
-      console.log('wrapping')
-
-      console.log(wrappers[`${nextI},${nextJ},${dir}`])
-      console.log(nextI, nextJ, nextDir);
+    if (wrappers[`${nextI},${nextJ},${dir}`] !== undefined) {
       [nextI, nextJ, nextDir] = wrappers[`${nextI},${nextJ},${dir}`];
-    };
-    console.log('possible next', nextI, nextJ)
+    }
     if (input[nextI][nextJ] === "#") {
-      console.log('staying at',i,j)
       return;
-    } else if (input[nextI][nextJ] !== '.') {
-      console.log("error out of bounds", nextI, nextJ, dir)
+    } else if (input[nextI][nextJ] !== ".") {
+      console.log("error out of bounds", nextI, nextJ, dir);
     } else {
       i = nextI;
       j = nextJ;
@@ -142,7 +125,6 @@ function move(steps) {
   }
   return;
 }
-
 
 function wrap(x, y, dir) {
   return wrappers[`${x},${y},${dir}`];
@@ -191,8 +173,6 @@ function makeWrap(p1, p2, p3, p4, dir1, dir2) {
 // 2: UP
 // 3: LEFT
 
-// console.log(wrappers);
-
 function makePoints(i1, j1, i2, j2) {
   let points = [];
 
@@ -226,7 +206,6 @@ function printState() {
     console.log(str);
   }
 }
-
 
 let dirScores = [1, 0, 3, 2];
 

@@ -1,38 +1,37 @@
-const fs = require('fs');
-let input = fs.readFileSync('21/input.txt', "utf-8").split('\n');
+const fs = require("fs");
+let input = fs.readFileSync("21/input.txt", "utf-8").split("\n");
 
 let vals = {};
 let tbd = {};
 
-for(const line of input){
+for (const line of input) {
   let [monkey, eval] = line.split(": ");
-  if(!isNaN(+eval)){
+  if (!isNaN(+eval)) {
     vals[monkey] = +eval;
-  }else{
+  } else {
     tbd[monkey] = eval;
   }
 }
 
-function makeEval(monkey){
-  if(vals[monkey] !== undefined){
-    return vals[monkey]
+function makeEval(monkey) {
+  if (vals[monkey] !== undefined) {
+    return vals[monkey];
   }
 
   let formula = tbd[monkey].split(" ");
-  if(formula[1] === "+"){
+  if (formula[1] === "+") {
     vals[monkey] = makeEval(formula[0]) + makeEval(formula[2]);
-    return vals[monkey]
-  }else if(formula[1] === "-"){
+    return vals[monkey];
+  } else if (formula[1] === "-") {
     vals[monkey] = makeEval(formula[0]) - makeEval(formula[2]);
-    return vals[monkey]
-  }else if(formula[1] === "/"){
+    return vals[monkey];
+  } else if (formula[1] === "/") {
     vals[monkey] = makeEval(formula[0]) / makeEval(formula[2]);
-    return vals[monkey]
-  }else if(formula[1] === "*"){
+    return vals[monkey];
+  } else if (formula[1] === "*") {
     vals[monkey] = makeEval(formula[0]) * makeEval(formula[2]);
-    return vals[monkey]
+    return vals[monkey];
   }
 }
 
-
-console.log(makeEval("root"))
+console.log(makeEval("root"));

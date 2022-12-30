@@ -4,8 +4,6 @@ let input = fs
   .split("\n")
   .map((el) => el.split(""));
 
-// console.log(input.map((el) => el.join("")));
-
 let storms = {
   0: {},
 };
@@ -72,21 +70,19 @@ let possibleMoves = [
   [0, -1], // left
 ];
 
-
 function bfs(startAtEnd, minute) {
   let start = [[0, 1], minute, []];
-  if(startAtEnd === true){
+  if (startAtEnd === true) {
     start[0] = [input.length - 1, input[0].length - 2];
   }
 
   let queue = [start];
 
   while (queue.length > 0) {
-    // console.log(queue);
     let [pos, minute, path] = queue.shift();
     let [i, j] = pos;
 
-    if(startAtEnd && i === 0 && j ===1){
+    if (startAtEnd && i === 0 && j === 1) {
       console.log("exited!");
       return minute;
     }
@@ -95,10 +91,6 @@ function bfs(startAtEnd, minute) {
       return minute;
     }
 
-    minute += 1;
-
-    // console.log('minute', minute)
-    // console.log('i,j', i,j)
 
     if (storms[minute] === undefined) {
       makeMinute(minute);
@@ -138,13 +130,10 @@ function printMap(minute) {
   }
 }
 
-
-
 let firstLeg = bfs(false, 0);
-console.log(firstLeg);
 let secondLeg = bfs(true, firstLeg);
 let thirdLeg = bfs(false, secondLeg);
 
 console.log(firstLeg, secondLeg - firstLeg, thirdLeg - secondLeg);
 
-console.log('total', thirdLeg);
+console.log("total", thirdLeg);

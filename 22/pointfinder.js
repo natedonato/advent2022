@@ -1,12 +1,12 @@
 const fs = require("fs");
-let input = fs.readFileSync("22/input.txt", "utf-8").split("\n").map(el => el + ' ');
-input.pop()
-input.pop()
+let input = fs
+  .readFileSync("22/input.txt", "utf-8")
+  .split("\n")
+  .map((el) => el + " ");
+input.pop();
+input.pop();
 
-let a = process.argv[2].split(',').map(el => +el);
-// let b = [process.argv[3].split(',').map(el => +el)];
-// let c = [process.argv[4].split(',').map(el => +el)];
-// let d = [process.argv[5].split(',').map(el => +el)];
+let a = process.argv[2].split(",").map((el) => +el);
 
 console.log(a);
 function printState() {
@@ -16,9 +16,9 @@ function printState() {
       if (j === a[1] && i === a[0]) {
         str += "X";
       } else {
-        if(input[i][j] === undefined){
-          str += ' '
-        }else{
+        if (input[i][j] === undefined) {
+          str += " ";
+        } else {
           str += input[i][j];
         }
       }

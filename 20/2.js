@@ -34,13 +34,13 @@ for (let i = 1; i < input.length; i++) {
 root.prev = currentNode;
 currentNode.next = root;
 
-for(let i = 0; i < 10; i++){
+for (let i = 0; i < 10; i++) {
   for (let i = 0; i < Object.keys(pointers).length; i++) {
     let currentNode = pointers[i];
     let traveler = currentNode;
     let val = currentNode.val;
-    val %= (Object.keys(pointers).length - 1)
-    
+    val %= Object.keys(pointers).length - 1;
+
     if (currentNode.val !== 0) {
       removeNode(currentNode);
     }

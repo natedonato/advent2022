@@ -22,7 +22,7 @@ function move(num, from, to) {
     removed.unshift(el);
   }
 
-  for(const item of removed){
+  for (const item of removed) {
     stacks[to].push(item);
   }
 }

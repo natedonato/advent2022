@@ -1,4 +1,4 @@
-// move head one step, move tail as applicable by calulated directoin vector 
+// move head one step, move tail as applicable by calulated directoin vector
 
 // set both start positions to 0,0
 
@@ -61,8 +61,7 @@ function move(line) {
   }
 }
 
-
-for(const line of input){
+for (const line of input) {
   move(line);
 }
 
